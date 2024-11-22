@@ -8,9 +8,9 @@ readme.workspace = true
 repository.workspace = true
 
 [dependencies]
-autonomic = {git = "https://github.com/geo-mak/autonomic"}
+autonomic.workspace = true
+tokio.workspace = true
+tracing.workspace = true
 
 serde = { version = "1.0.215", features = ["derive"] }
 async-trait = "0.1.83"
-tokio = { version = "1.41.1", features = ["rt-multi-thread"] }
-tracing = "0.1.40"
