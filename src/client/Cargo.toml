@@ -1,0 +1,19 @@
+[package]
+name = "autonomic_client"
+version = "0.1.0"
+edition = "2021"
+description = "The client side of the Autonomic Playground"
+license.workspace = true
+readme.workspace = true
+repository.workspace = true
+
+[dependencies]
+autonomic = {git = "https://github.com/geo-mak/autonomic", features = ["openapi-client"]}
+autonomic_playground_kit = { path = "../playground_kit" }
+
+tokio = { version = "1.41.1", features = ["rt-multi-thread"] }
+tokio-stream = "0.1.16"
+tracing = "0.1.40"
+tracing-subscriber = {version = "0.3.18", features = ["env-filter"]}
+reqwest = "0.12.9"
+lazy_static = "1.5.0"

@@ -1,0 +1,16 @@
+[package]
+name = "autonomic_playground_kit"
+version = "0.1.0"
+edition = "2021"
+description = "A collection of shared types and utilities for the Autonomic Playground"
+license.workspace = true
+readme.workspace = true
+repository.workspace = true
+
+[dependencies]
+autonomic = {git = "https://github.com/geo-mak/autonomic"}
+
+serde = { version = "1.0.215", features = ["derive"] }
+async-trait = "0.1.83"
+tokio = { version = "1.41.1", features = ["rt-multi-thread"] }
+tracing = "0.1.40"
