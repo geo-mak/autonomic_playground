@@ -11,7 +11,7 @@ name = "autonomic_playground"
 version = "0.1.0"
 edition = "2021"
 description = "A playground for the Autonomic project"
-license = "MIT"
+license-file = "LICENSE"
 readme = "README.md"
 repository = "https://github.com/geo-mak/autonomic_playground"
 

@@ -3,7 +3,7 @@ name = "autonomic_playground_kit"
 version = "0.1.0"
 edition = "2021"
 description = "A collection of shared types and utilities for the Autonomic Playground"
-license.workspace = true
+license-file.workspace = true
 readme.workspace = true
 repository.workspace = true
 

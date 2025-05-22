@@ -3,7 +3,7 @@ name = "autonomic_client"
 version = "0.1.0"
 edition = "2021"
 description = "The client side of the Autonomic Playground"
-license.workspace = true
+license-file.workspace = true
 readme.workspace = true
 repository.workspace = true
 
