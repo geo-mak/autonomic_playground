@@ -1,23 +1,28 @@
 [workspace]
 members = [
     "src/client",
-    "src/service",
+    "src/server",
     "src/playground_kit",
 ]
-resolver = "2"
+
+resolver = "3"
 
 [workspace.package]
 name = "autonomic_playground"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
 description = "A playground for the Autonomic project"
 license-file = "LICENSE"
 readme = "README.md"
 repository = "https://github.com/geo-mak/autonomic_playground"
 
 [workspace.dependencies]
-autonomic = { git = "https://github.com/geo-mak/autonomic" }
+autonomic_api = { git = "https://github.com/geo-mak/autonomic", subdir = "api" }
+autonomic_core = { git = "https://github.com/geo-mak/autonomic", subdir = "core" }
+autonomic_service = { git = "https://github.com/geo-mak/autonomic", subdir = "service" }
+
 autonomic_playground_kit = { path = "src/playground_kit" }
+
 tracing = "0.1.40"
 tracing-subscriber = {version = "0.3.18", features = ["env-filter"]}
 tokio = { version = "1.41.1", features = ["rt-multi-thread"] }

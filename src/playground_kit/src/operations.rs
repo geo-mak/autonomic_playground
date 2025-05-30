@@ -2,9 +2,9 @@ use std::any::Any;
 use std::time::Duration;
 
 use async_trait::async_trait;
-use autonomic::core::operation::{Operation, OperationParameters, OperationResult};
-use autonomic::core::traits::{Describe, Identity};
-use autonomic::trace_info;
+use autonomic_core::operation::{Operation, OperationParameters, OperationResult};
+use autonomic_core::traits::{Describe, Identity};
+use autonomic_core::trace_info;
 use serde::{Deserialize, Serialize};
 
 /// Retry parameters for the `PlaygroundOperation`.

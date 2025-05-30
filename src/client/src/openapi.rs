@@ -1,10 +1,12 @@
-use autonomic::core::operation::OpState;
-use autonomic::core::serde::AnySerializable;
-use autonomic::core::service::ControllerClient;
-use autonomic::openapi::client::OpenAPIClient;
 use lazy_static::lazy_static;
 use reqwest::Client;
 use tokio_stream::StreamExt;
+
+use autonomic_core::operation::OpState;
+use autonomic_core::serde::AnySerializable;
+use autonomic_service::openapi::client::OpenAPIClient;
+
+use autonomic_api::controller::ControllerClient;
 
 lazy_static! {
     pub static ref AUTONOMIC_CLIENT: OpenAPIClient<'static> =

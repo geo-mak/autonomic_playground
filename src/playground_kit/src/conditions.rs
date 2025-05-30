@@ -4,8 +4,8 @@ use std::time::Duration;
 
 use tokio::time::sleep;
 
-use autonomic::core::operation::OperationParameters;
-use autonomic::core::sensor::ActivationCondition;
+use autonomic_core::operation::OperationParameters;
+use autonomic_core::sensor::ActivationCondition;
 
 #[derive(Clone, Debug)]
 pub struct Interval {

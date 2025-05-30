@@ -1,5 +1,2 @@
 # Project exclude paths
-/src/client/target/
-/src/service/target/
-/src/playground_kit/target/
 /target/

@@ -4,11 +4,11 @@ use tracing::subscriber::set_global_default;
 use tracing_subscriber::layer::SubscriberExt;
 use tracing_subscriber::{Layer, Registry};
 
-use autonomic::core::controller::OperationController;
-use autonomic::core::operation::OperationResult;
-use autonomic::core::traits::{IntoArc, IntoSensor};
-use autonomic::openapi::router::controller_router;
-use autonomic::openapi::server::OpenAPIServer;
+use autonomic_core::controller::OperationController;
+use autonomic_core::operation::OperationResult;
+use autonomic_core::traits::{IntoArc, IntoSensor};
+use autonomic_service::openapi::router::controller_router;
+use autonomic_service::openapi::server::OpenAPIServer;
 
 use autonomic_playground_kit::conditions::Interval;
 use autonomic_playground_kit::operations::{Play, PlayParameters, PlaygroundOperation};

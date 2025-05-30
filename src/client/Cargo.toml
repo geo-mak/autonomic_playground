@@ -1,15 +1,19 @@
 [package]
 name = "autonomic_client"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
 description = "The client side of the Autonomic Playground"
 license-file.workspace = true
 readme.workspace = true
 repository.workspace = true
 
 [dependencies]
-autonomic = { workspace = true, features = ["openapi-client"] }
+autonomic_api.workspace = true
+autonomic_core.workspace = true
+autonomic_service = { workspace = true, features = ["openapi-client"] }
+
 autonomic_playground_kit.workspace = true
+
 tokio.workspace = true
 tracing.workspace = true
 tracing-subscriber.workspace = true

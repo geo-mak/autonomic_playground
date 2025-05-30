@@ -5,8 +5,8 @@ use tracing_subscriber::layer::SubscriberExt;
 use tracing_subscriber::{Layer, Registry};
 
 use crate::openapi::PlaygroundOpenAPIClient;
-use autonomic::core::operation::OperationResult;
-use autonomic::core::serde::IntoAnySerializable;
+use autonomic_core::operation::OperationResult;
+use autonomic_core::serde::IntoAnySerializable;
 use autonomic_playground_kit::operations::{Play, PlayParameters};
 
 pub static CONTROLLER: &str = "controller";
@@ -23,7 +23,7 @@ async fn main() {
     set_global_default(subscriber).expect("Failed to set global tracing subscriber");
 
     // Our basic Playbook
-    // Before we start, the service must be up and running with required operations and sensors.
+    // Before we start, the server must be up and running with required operations and sensors.
 
     // We start by defining basic parameters for the main operation.
 
