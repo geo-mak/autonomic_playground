@@ -1,8 +1,8 @@
 [package]
-name = "autonomic_server"
+name = "api_server"
 version = "0.1.0"
 edition = "2024"
-description = "The server side of the Autonomic Playground"
+description = "The API server of autonomic"
 license-file.workspace = true
 readme.workspace = true
 repository.workspace = true
@@ -11,7 +11,7 @@ repository.workspace = true
 autonomic_core.workspace = true
 autonomic_service = { workspace = true, features = ["openapi-router", "openapi-server-tls"]}
 
-autonomic_playground_kit.workspace = true
+pg_kit.workspace = true
 
 tokio.workspace = true
 tracing.workspace = true

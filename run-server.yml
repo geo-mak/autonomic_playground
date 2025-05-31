@@ -1,0 +1,6 @@
+services:
+  autonomic_playground:
+    image: api_server
+    ports:
+      - "8000:8000"
+    restart: no

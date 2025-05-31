@@ -7,7 +7,7 @@ use tracing_subscriber::{Layer, Registry};
 use crate::openapi::PlaygroundOpenAPIClient;
 use autonomic_core::operation::OperationResult;
 use autonomic_core::serde::IntoAnySerializable;
-use autonomic_playground_kit::operations::{Play, PlayParameters};
+use pg_kit::operations::{Play, PlayParameters};
 
 pub static CONTROLLER: &str = "controller";
 pub static MAIN_OPERATION: &str = "main_operation";

@@ -10,8 +10,8 @@ use autonomic_core::traits::{IntoArc, IntoSensor};
 use autonomic_service::openapi::router::controller_router;
 use autonomic_service::openapi::server::OpenAPIServer;
 
-use autonomic_playground_kit::conditions::Interval;
-use autonomic_playground_kit::operations::{Play, PlayParameters, PlaygroundOperation};
+use pg_kit::conditions::Interval;
+use pg_kit::operations::{Play, PlayParameters, PlaygroundOperation};
 
 pub static MAIN_CONTROLLER: &str = "controller";
 pub static MAIN_OPERATION: &str = "main_operation";
