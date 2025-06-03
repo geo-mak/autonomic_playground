@@ -127,10 +127,10 @@ impl Operation for PlaygroundOperation {
             if let Some(play) = params.as_parameters().downcast_ref::<PlayParameters>() {
                 self.retry_run(play).await
             } else {
-                OperationResult::err_str("Unexpected parameters")
+                OperationResult::err_msg("Unexpected parameters")
             }
         } else {
-            OperationResult::err_str("Parameters required")
+            OperationResult::err_msg("Parameters required")
         }
     }
 }

@@ -19,7 +19,7 @@ pub struct PlaygroundOpenAPIClient;
 impl PlaygroundOpenAPIClient {
     pub async fn get_operation(controller_id: &str, operation_id: &str) {
         let result = AUTONOMIC_CLIENT
-            .operation(controller_id, operation_id)
+            .op(controller_id, operation_id)
             .await;
         match result {
             Ok(op_info) => {
@@ -36,7 +36,7 @@ impl PlaygroundOpenAPIClient {
     }
 
     pub async fn get_all_operations(controller_id: &str) {
-        let result = AUTONOMIC_CLIENT.operations(controller_id).await;
+        let result = AUTONOMIC_CLIENT.list(controller_id).await;
         match result {
             Ok(ops_infos) => {
                 tracing::info!("Received current operations: {:?}", ops_infos);
@@ -48,7 +48,7 @@ impl PlaygroundOpenAPIClient {
     }
 
     pub async fn get_active_operations(controller_id: &str) {
-        let result = AUTONOMIC_CLIENT.active_operations(controller_id).await;
+        let result = AUTONOMIC_CLIENT.list_active(controller_id).await;
         match result {
             Ok(ops) => {
                 tracing::info!("Received active operations: {:?}", ops);
@@ -86,7 +86,8 @@ impl PlaygroundOpenAPIClient {
             .activate_stream(controller_id, operation_id, parameters)
             .await;
         match result {
-            Ok(mut stream) => {
+            Ok(mapper) => {
+                let mut stream = mapper.map();
                 while let Some(state) = stream.next().await {
                     match state {
                         OpState::Active => {

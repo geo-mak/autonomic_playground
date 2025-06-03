@@ -29,7 +29,7 @@ async fn main() {
 
     // Ok parameters will return `Ok` with a message.
     let ok_params = PlayParameters::new(
-        Play::NormalResult(OperationResult::ok_str("Welcome to autonomic!")),
+        Play::NormalResult(OperationResult::ok_msg("Welcome to autonomic!")),
         None,
         0,
     )
@@ -37,7 +37,7 @@ async fn main() {
 
     // Err parameters will return `Err` with a message.
     let err_params = PlayParameters::new(
-        Play::NormalResult(OperationResult::err_str("Expected Error")),
+        Play::NormalResult(OperationResult::err_msg("Expected Error")),
         None,
         0,
     )
