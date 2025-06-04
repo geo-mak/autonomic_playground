@@ -2,10 +2,12 @@ use std::any::Any;
 use std::time::Duration;
 
 use async_trait::async_trait;
-use autonomic_operation::operation::{Operation, OperationParameters, OperationResult};
-use autonomic_operation::trace_info;
-use autonomic_operation::traits::{Describe, Identity};
+
 use serde::{Deserialize, Serialize};
+
+use autonomic_operation::operation::{Operation, OperationParameters, OperationResult};
+use autonomic_operation::traits::{Describe, Identity};
+use autonomic_events::trace_info;
 
 /// Retry parameters for the `PlaygroundOperation`.
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]

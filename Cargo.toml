@@ -20,6 +20,7 @@ repository = "https://github.com/geo-mak/autonomic_playground"
 autonomic_api = { git = "https://github.com/geo-mak/autonomic", package = "autonomic_api" }
 autonomic_operation = { git = "https://github.com/geo-mak/autonomic", package = "autonomic_operation" }
 autonomic_service = { git = "https://github.com/geo-mak/autonomic", package = "autonomic_service" }
+autonomic_events = { git = "https://github.com/geo-mak/autonomic", package = "autonomic_events" }
 
 pg_kit = { path = "pg_kit" }
 
