@@ -18,7 +18,7 @@ repository = "https://github.com/geo-mak/autonomic_playground"
 
 [workspace.dependencies]
 autonomic_api = { git = "https://github.com/geo-mak/autonomic", package = "autonomic_api" }
-autonomic_core = { git = "https://github.com/geo-mak/autonomic", package = "autonomic_core" }
+autonomic_operation = { git = "https://github.com/geo-mak/autonomic", package = "autonomic_operation" }
 autonomic_service = { git = "https://github.com/geo-mak/autonomic", package = "autonomic_service" }
 
 pg_kit = { path = "pg_kit" }

@@ -2,11 +2,11 @@ use lazy_static::lazy_static;
 use reqwest::Client;
 use tokio_stream::StreamExt;
 
-use autonomic_core::operation::OpState;
-use autonomic_core::serde::AnySerializable;
+use autonomic_operation::operation::OpState;
+use autonomic_operation::serde::AnySerializable;
 use autonomic_service::openapi::client::OpenAPIClient;
 
-use autonomic_api::controller::ControllerClient;
+use autonomic_api::operation::OperationClient;
 
 lazy_static! {
     pub static ref AUTONOMIC_CLIENT: OpenAPIClient<'static> =
@@ -18,9 +18,7 @@ pub struct PlaygroundOpenAPIClient;
 #[allow(dead_code)]
 impl PlaygroundOpenAPIClient {
     pub async fn get_operation(controller_id: &str, operation_id: &str) {
-        let result = AUTONOMIC_CLIENT
-            .op(controller_id, operation_id)
-            .await;
+        let result = AUTONOMIC_CLIENT.op(controller_id, operation_id).await;
         match result {
             Ok(op_info) => {
                 tracing::info!(

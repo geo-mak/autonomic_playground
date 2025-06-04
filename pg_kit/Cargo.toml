@@ -8,7 +8,7 @@ readme.workspace = true
 repository.workspace = true
 
 [dependencies]
-autonomic_core.workspace = true
+autonomic_operation.workspace = true
 
 tokio.workspace = true
 tracing.workspace = true

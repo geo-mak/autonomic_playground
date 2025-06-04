@@ -4,10 +4,10 @@ use tracing::subscriber::set_global_default;
 use tracing_subscriber::layer::SubscriberExt;
 use tracing_subscriber::{Layer, Registry};
 
-use autonomic_core::controller::OperationController;
-use autonomic_core::operation::OperationResult;
-use autonomic_core::traits::{IntoArc, IntoSensor};
-use autonomic_service::openapi::router::controller_router;
+use autonomic_operation::controller::OperationController;
+use autonomic_operation::operation::OperationResult;
+use autonomic_operation::traits::{IntoArc, IntoSensor};
+use autonomic_service::openapi::router::operation_router;
 use autonomic_service::openapi::server::OpenAPIServer;
 
 use pg_kit::conditions::Interval;
@@ -51,7 +51,7 @@ async fn main() {
     controller.submit(secondary_operation, None);
 
     // New router instance
-    let router = controller_router(controller.into_arc());
+    let router = operation_router(controller.into_arc());
 
     // New server instance
     let server = OpenAPIServer::new();

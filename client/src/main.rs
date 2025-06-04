@@ -5,8 +5,8 @@ use tracing_subscriber::layer::SubscriberExt;
 use tracing_subscriber::{Layer, Registry};
 
 use crate::openapi::PlaygroundOpenAPIClient;
-use autonomic_core::operation::OperationResult;
-use autonomic_core::serde::IntoAnySerializable;
+use autonomic_operation::operation::OperationResult;
+use autonomic_operation::serde::IntoAnySerializable;
 use pg_kit::operations::{Play, PlayParameters};
 
 pub static CONTROLLER: &str = "controller";
