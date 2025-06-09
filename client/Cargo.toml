@@ -1,5 +1,5 @@
 [package]
-name = "api_client"
+name = "client"
 version = "0.1.0"
 edition = "2024"
 description = "The API client of autonomic"
@@ -9,15 +9,13 @@ repository.workspace = true
 
 [dependencies]
 autonomic_api.workspace = true
-autonomic_operation.workspace = true
+autonomic_controllers.workspace = true
 autonomic_service = { workspace = true, features = ["openapi-client"] }
-
-pg_kit.workspace = true
 
 tokio.workspace = true
 tracing.workspace = true
 tracing-subscriber.workspace = true
 
-lazy_static = "1.5.0"
+lazy_static.workspace = true
 reqwest = "0.12.9"
 tokio-stream = "0.1.16"

@@ -8,7 +8,7 @@ readme.workspace = true
 repository.workspace = true
 
 [dependencies]
-autonomic_operation.workspace = true
+autonomic_controllers.workspace = true
 autonomic_service = { workspace = true, features = ["openapi-router", "openapi-server-tls"]}
 
 pg_kit.workspace = true
@@ -16,3 +16,5 @@ pg_kit.workspace = true
 tokio.workspace = true
 tracing.workspace = true
 tracing-subscriber.workspace = true
+
+axum = { version = "0.7.7" }

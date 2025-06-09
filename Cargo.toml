@@ -1,7 +1,7 @@
 [workspace]
 members = [
-    "client",
     "server",
+    "client",
     "pg_kit",
 ]
 
@@ -18,7 +18,7 @@ repository = "https://github.com/geo-mak/autonomic_playground"
 
 [workspace.dependencies]
 autonomic_api = { git = "https://github.com/geo-mak/autonomic", package = "autonomic_api" }
-autonomic_operation = { git = "https://github.com/geo-mak/autonomic", package = "autonomic_operation" }
+autonomic_controllers = { git = "https://github.com/geo-mak/autonomic", package = "autonomic_controllers" }
 autonomic_service = { git = "https://github.com/geo-mak/autonomic", package = "autonomic_service" }
 autonomic_events = { git = "https://github.com/geo-mak/autonomic", package = "autonomic_events" }
 
@@ -27,3 +27,4 @@ pg_kit = { path = "pg_kit" }
 tracing = "0.1.40"
 tracing-subscriber = {version = "0.3.18", features = ["env-filter"]}
 tokio = { version = "1.41.1", features = ["rt-multi-thread"] }
+lazy_static = "1.5.0"

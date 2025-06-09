@@ -1,66 +1,94 @@
 use std::net::{IpAddr, Ipv4Addr, SocketAddr};
+use std::time::Duration;
 
 use tracing::subscriber::set_global_default;
 use tracing_subscriber::layer::SubscriberExt;
 use tracing_subscriber::{Layer, Registry};
 
-use autonomic_operation::controller::OperationController;
-use autonomic_operation::operation::OperationResult;
-use autonomic_operation::traits::{IntoArc, IntoSensor};
-use autonomic_service::openapi::router::operation_router;
+use axum::extract::Path;
+use axum::response::IntoResponse;
+use axum::routing::post;
+use axum::{Json, Router};
+
+use pg_kit::controller::PGController;
+
+use autonomic_controllers::provider::ControllerManager;
+use autonomic_service::openapi::router::controller_router;
 use autonomic_service::openapi::server::OpenAPIServer;
 
-use pg_kit::conditions::Interval;
-use pg_kit::operations::{Play, PlayParameters, PlaygroundOperation};
+static DEFAULT_STATE: &str = "default state";
+static CTRL_DESC: &str = "Play ground test controller";
 
-pub static MAIN_CONTROLLER: &str = "controller";
-pub static MAIN_OPERATION: &str = "main_operation";
-
-pub static SECONDARY_OPERATION: &str = "secondary_operation";
+pub async fn change_state(
+    Path(store): Path<String>,
+    Json(content): Json<String>,
+) -> impl IntoResponse {
+    match tokio::fs::write(&store, content).await {
+        Ok(_) => (axum::http::StatusCode::OK, "State updated").into_response(),
+        Err(_) => (
+            axum::http::StatusCode::INTERNAL_SERVER_ERROR,
+            "Failed to write file",
+        )
+            .into_response(),
+    }
+}
 
 #[tokio::main]
 async fn main() {
-    // Global tracing subscriber configuration to print events to the console
-    // This should be done only once per application, otherwise it will panic
-    let filter = tracing_subscriber::filter::EnvFilter::new("autonomic=trace");
+    // One time setup, or it will panic.
+    let filter =
+        tracing_subscriber::filter::EnvFilter::new("autonomic=trace,server=trace,pg_kit=trace");
     let layer = tracing_subscriber::fmt::layer().with_filter(filter);
     let subscriber = Registry::default().with(layer);
     set_global_default(subscriber).expect("Failed to set global tracing subscriber");
 
-    // New operation we consider to be the main operation
-    let main_operation = PlaygroundOperation::new(MAIN_OPERATION, "Main playground operation");
+    // The provider component.
+    let mut provider = ControllerManager::new();
 
-    // Parameters of the activation condition
-    let condition_params = PlayParameters::new(Play::NormalResult(OperationResult::Ok), None, 0);
+    // How fast the checking should be in this setup.
+    let poll_speed = Duration::from_secs(1);
 
-    // A new sensor that will trigger the main operation every second.
-    let sensor = Interval::new(2, Some(condition_params.into_arc())).into_sensor();
+    let controller_1 = PGController::new(
+        "controller_1",
+        CTRL_DESC,
+        "store_1",
+        DEFAULT_STATE,
+        poll_speed,
+    );
+    let controller_2 = PGController::new(
+        "controller_2",
+        CTRL_DESC,
+        "store_2",
+        DEFAULT_STATE,
+        poll_speed,
+    );
+    let controller_3 = PGController::new(
+        "controller_3",
+        CTRL_DESC,
+        "store_3",
+        DEFAULT_STATE,
+        poll_speed,
+    );
 
-    // New operation we consider to be the secondary operation
-    let secondary_operation =
-        PlaygroundOperation::new(SECONDARY_OPERATION, "Secondary playground operation");
+    provider.submit(controller_1);
+    provider.submit(controller_2);
+    provider.submit(controller_3);
 
-    // New controller instance
-    let mut controller = OperationController::new(MAIN_CONTROLLER);
+    let static_provider = provider.into_static();
 
-    // Submitting main operation with sensor with parameters
-    controller.submit_parameters::<PlayParameters>(main_operation, Some(sensor));
+    // Fires the sensors of all controllers.
+    static_provider.start();
 
-    // Submitting secondary operation without sensor
-    // Since parameters are of the same type as the main operation, we don't need to specify them
-    controller.submit(secondary_operation, None);
+    let ctrl_rt = controller_router(static_provider);
+    let update_rt = Router::new().route("/change_state/:store", post(change_state));
+    let merged_rt = ctrl_rt.merge(update_rt);
 
-    // New router instance
-    let router = operation_router(controller.into_arc());
+    let api_server = OpenAPIServer::new();
 
-    // New server instance
-    let server = OpenAPIServer::new();
-
-    // Serving
-    server
+    api_server
         .serve(
             SocketAddr::new(IpAddr::V4(Ipv4Addr::new(127, 0, 0, 1)), 8000),
-            router,
+            merged_rt,
         )
         .await;
 }
