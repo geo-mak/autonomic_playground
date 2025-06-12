@@ -12,7 +12,7 @@ use axum::{Json, Router};
 
 use pg_kit::controller::PGController;
 
-use autonomic_controllers::provider::ControllerManager;
+use autonomic_controllers::manager::ControllerManager;
 use autonomic_service::openapi::router::controller_router;
 use autonomic_service::openapi::server::OpenAPIServer;
 
