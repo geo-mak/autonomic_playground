@@ -4,10 +4,6 @@ use std::time::Duration;
 use async_trait::async_trait;
 use tokio::io::AsyncWriteExt;
 
-use autonomic_events::trace_error;
-use autonomic_events::trace_info;
-use autonomic_events::trace_warn;
-
 use autonomic_controllers::controller::{ControlContext, Controller, ControllerResult};
 
 pub struct PGController {
@@ -57,22 +53,19 @@ impl Controller for PGController {
             let content = match tokio::fs::read_to_string(self.store).await {
                 Ok(c) => c,
                 Err(e) => {
-                    trace_warn!(
-                        source = self.id,
-                        message = format!("Failed to read file: {e}")
-                    );
+                     tracing::warn!(message = format!("Failed to read file: {e}"));
                     continue;
                 }
             };
             if content != self.default {
-                trace_warn!(source = self.id, message = "State change has been detected");
+                tracing::warn!(message = "State change has been detected");
                 return;
             }
         }
     }
 
     async fn perform(&self, _: &ControlContext) -> ControllerResult {
-        trace_info!(source = self.id, message = "Starting the control operation");
+        tracing::info!(message = "Starting the control operation");
         match tokio::fs::OpenOptions::new()
             .write(true)
             .truncate(true)
@@ -83,11 +76,11 @@ impl Controller for PGController {
                 if let Err(e) = file.write_all(self.default.as_bytes()).await {
                     return ControllerResult::ErrMsg(e.to_string().into());
                 }
-                trace_info!(source = self.id, message = "The state has been corrected");
+                tracing::info!(source = self.id, message = "The state has been corrected");
                 ControllerResult::Ok
             }
             Err(e) => {
-                trace_error!(
+                tracing::error!(
                     source = self.id,
                     message = "The correction action has failed"
                 );
