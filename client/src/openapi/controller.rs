@@ -53,23 +53,14 @@ impl PGControllerClient {
         match AUTONOMIC_CLIENT.list().await {
             Ok(ctrl_infos) => {
                 tracing::info!("Controllers:");
-                tracing::info!(
-                    "{:<15} | {:<30} | {:<10} | {:<10} | {:<10}",
-                    "ID",
-                    "Description",
-                    "Performing",
-                    "Locked",
-                    "Sensing"
-                );
+                tracing::info!("{:<15} | {:<30} | {:<10}", "ID", "Description", "State");
                 tracing::info!("{}", "-".repeat(85));
                 for ctrl in ctrl_infos {
                     tracing::info!(
-                        "{:<15} | {:<30} | {:<10} | {:<10} | {:<10}",
+                        "{:<15} | {:<30} | {:<10}",
                         ctrl.id(),
                         ctrl.description(),
-                        ctrl.performing(),
-                        ctrl.locked(),
-                        ctrl.sensing(),
+                        ctrl.state()
                     );
                 }
             }
@@ -99,31 +90,13 @@ impl PGControllerClient {
                         OpState::Started => {
                             tracing::info!("Operation started");
                         }
-                        OpState::Ok(val) => match val {
-                            Some(msg) => {
-                                tracing::info!(
-                                    "Operation completed successfully with message: {}",
-                                    msg
-                                );
-                            }
-                            None => {
-                                tracing::info!("Operation completed successfully");
-                            }
-                        },
+                        OpState::Ok => tracing::info!("Operation completed successfully"),
                         OpState::Failed(val) => match val {
                             Some(msg) => {
                                 tracing::info!("Operation failed with message: {}", msg);
                             }
                             None => {
                                 tracing::info!("Operation failed");
-                            }
-                        },
-                        OpState::Locked(val) => match val {
-                            Some(msg) => {
-                                tracing::error!("Operation locked with message: {}", msg)
-                            }
-                            None => {
-                                tracing::error!("Operation locked");
                             }
                         },
                         OpState::Aborted => {
@@ -208,7 +181,7 @@ impl PGControllerClient {
     }
 
     pub async fn change_observed_state(store: &str, value: &str) {
-        let url = format!("http://127.0.0.1:8000/change_state/{}", store);
+        let url = format!("http://127.0.0.1:8000/change_state/{store}");
         let client = reqwest::Client::new();
         let result = client.post(&url).json(&value).send().await;
 

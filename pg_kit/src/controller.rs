@@ -53,7 +53,7 @@ impl Controller for PGController {
             let content = match tokio::fs::read_to_string(self.store).await {
                 Ok(c) => c,
                 Err(e) => {
-                     tracing::warn!(message = format!("Failed to read file: {e}"));
+                    tracing::warn!(message = format!("Failed to read file: {e}"));
                     continue;
                 }
             };
@@ -74,7 +74,7 @@ impl Controller for PGController {
         {
             Ok(mut file) => {
                 if let Err(e) = file.write_all(self.default.as_bytes()).await {
-                    return ControllerResult::ErrMsg(e.to_string().into());
+                    return ControllerResult::Err(e.to_string().into());
                 }
                 tracing::info!(source = self.id, message = "The state has been corrected");
                 ControllerResult::Ok
@@ -84,7 +84,7 @@ impl Controller for PGController {
                     source = self.id,
                     message = "The correction action has failed"
                 );
-                ControllerResult::ErrMsg(e.to_string().into())
+                ControllerResult::Err(e.to_string().into())
             }
         }
     }
